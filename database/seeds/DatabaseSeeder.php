@@ -11,6 +11,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+         $this->call([
+             UserSeeder::class,
+             CategorySeeder::class,
+             // 博客
+             PostSeeder::class,
+             // 商店
+             ProductSeeder::class,
+             OrderSeeder::class,
+             OrderItemSeeder::class,
+             // 通用
+             CommentSeeder::class,
+             LikeSeeder::class,
+             FavoriteSeeder::class,
+         ]);
     }
 }
