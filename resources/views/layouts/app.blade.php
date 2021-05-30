@@ -41,7 +41,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('products.index') }}">商店</a>
                         </li>
-
+                        {{-- 后台 --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin') }}">后台</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
