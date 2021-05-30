@@ -16,9 +16,15 @@ class OrderItemSeeder extends Seeder
         $records = [];
 
         for ($i = 0; $i < $orders->count() * 5; $i++) {
+            /** @var \App\Models\Product $product */
+            $product = $products->random();
+            $quantity = random_int(1, 5);
+
             $records[] = [
                 'order_id' => $orders->random()->id,
-                'product_id' => $products->random()->id,
+                'product_id' => $product->id,
+                'amount' => $product->price * $quantity,
+                'quantity' => $quantity,
             ];
         }
 
