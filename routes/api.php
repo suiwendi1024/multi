@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // 博客评论
 Route::apiResource('posts.comments', 'CommentController')->only('index', 'store');
 Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
+// 商品评论
+Route::apiResource('products.comments', 'CommentController')->only('index', 'store');
+Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
 // 博客点赞
 Route::apiResource('posts.likes', 'LikeController')->only('store');
 Route::delete('posts/{post}/likes', 'LikeController@destroy')->name('posts.likes.destroy');
