@@ -42,6 +42,8 @@ Route::view('/admin', 'admin.dashboard')->name('admin')->middleware('auth:admin'
 Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function () {
 
     Auth::routes(['register' => false, 'reset' => false, 'confirm' => false, 'verify' => false]);
+    // 帖子管理
+    Route::resource('posts', 'PostController');
     // 订单管理
     Route::resource('orders', 'OrderController');
 });

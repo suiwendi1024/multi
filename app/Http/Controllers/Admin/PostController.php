@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,22 +14,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        /** @var \Illuminate\Database\Eloquent\Collection $year */
-        $year = \App\Models\Order::withoutGlobalScope(new \App\Scopes\ReverseScope())->whereBetween('created_at', [
-            date('Y-m-d', strtotime('-1 year')),
-            date('Y-m-d')
-        ])->get()->groupBy(function (\App\Models\Order $order) {
-            return $order->created_at->format('Y-m-d');
-        })->map->sum('total');
-        $month = $year->filter(function ($value, $key) {
-            return strtotime($key) >= strtotime('-1 month');
-        });
-        $charts = [
-            ['title' => '年度销售额统计', 'date' => $year->keys(), 'total' => $year->values()],
-            ['title' => '月度销售额统计', 'date' => $month->keys(), 'total' => $month->values()],
-        ];
+        $posts = \App\Models\Post::paginate();
 
-        return view('admin.orders.index', compact('charts'));
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**

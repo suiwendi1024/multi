@@ -20,8 +20,7 @@
                 </div>
 
                 <div>
-                    <button type="button" class="btn btn-warning btn-lg">加入购物车</button>
-                    <a class="btn btn-danger btn-lg" role="button" href="#">立即购买</a>
+                    <button type="button" class="btn btn-danger btn-lg">加入购物车</button>
                 </div>
             </div>
             <div class="col-md-2"></div>
@@ -36,5 +35,6 @@
                 <comment-section class="mt-5"></comment-section>
             </div>
         </div>
+
     </div>
 @endsection
