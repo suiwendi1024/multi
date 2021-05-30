@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Traits\PostTrait;
+use App\Models\Traits\TypeTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable,
-        PostTrait;
+        PostTrait,
+        TypeTrait;
 
     /**
      * The attributes that are mass assignable.

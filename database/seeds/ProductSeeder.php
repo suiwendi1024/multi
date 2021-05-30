@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        $users = \App\User::latest('id')->limit(10)->get();
+        $users = \App\User::ofType('user')->latest('id')->limit(10)->get();
         $categories = \App\Models\Category::ofType('product')->ofGeneration(2)->get();
         $records = [];
 
