@@ -26,8 +26,14 @@
             <div class="col-md-2"></div>
         </div>
         <div class="row">
-            <div class="col-md-2">
-
+            <div class="col-md-2 border-right">
+                @foreach($side_products as $product)
+                    <img class="img-fluid mb-1" src="{{ asset($product->cover_url) }}" alt="">
+                    <h5>
+                        <a href="{{ $product->path }}" target="_blank">{{ $product->name }}</a>
+                    </h5>
+                    <span class="text-danger">￥{{ $product->price }}</span>
+                @endforeach
             </div>
             <div class="col-md">
                 <div class="lead">{!! $product->description !!}</div>
