@@ -3,6 +3,7 @@
  * @var \App\Models\Category[] $categories
  */
 ?>
+<h4>分类</h4>
 <ul class="nav nav-pills flex-column">
     @foreach($categories as $category)
         <li class="nav-item">

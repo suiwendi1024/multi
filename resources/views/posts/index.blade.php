@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \App\Models\Post[]|\Illuminate\Pagination\LengthAwarePaginator $posts
+ * @var \App\Models\Post[]|\Illuminate\Pagination\LengthAwarePaginator $ranking_posts
  */
 ?>
 @extends('layouts.app')
@@ -16,7 +17,7 @@
                             type="search"
                             name="search"
                             class="form-control"
-                            placeholder="搜索帖子"
+                            placeholder="搜索帖子标题或摘要"
                             onsearch="if (this.value == '' && location.search.indexOf('search') != -1) {location.href = location.pathname;}"
                             maxlength="40"
                             required
@@ -48,9 +49,9 @@
                             <div class="media">
                                 <div class="media-body align-self-stretch d-flex flex-column">
                                     <h3>
-                                        <a href="{{ $post->path }}" target="_blank">{{ $post->title }}</a>
+                                        <a href="{{ $post->path }}" target="_blank">{!! str_replace($search, '<span class="bg-warning">' . $search . '</span>', $post->title) !!}</a>
                                     </h3>
-                                    <div class="text-muted flex-grow-1">{{ $post->summary }}</div>
+                                    <div class="text-muted flex-grow-1">{!! str_replace($search, '<span class="bg-warning">' . $search . '</span>', $post->summary) !!}</div>
                                     <div class="media small">
                                         <img class="mr-3 img-fluid rounded-circle" style="width: 30px;" src="{{ asset($post->user->profile_picture_url) }}" alt="">
                                         <div class="media-body align-self-center d-flex justify-content-between">
