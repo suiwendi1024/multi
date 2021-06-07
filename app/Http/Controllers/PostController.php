@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -28,11 +29,16 @@ class PostController extends Controller
             $query = \App\Models\Post::where('title', 'like', "%{$search}%")
                 ->orWhere('summary', 'like', "%{$search}%");
         }
-        $posts = $query->paginate();
 
+        $posts = $query->paginate();
+        // 翻页链接的路径附加分类和搜索关键词
         $posts->setPath(route('posts.index', ['category' => $category, 'search' => $search]));
 
-        return view('posts.index', compact('posts', 'search'));
+        if (\request()->wantsJson()) {
+            return PostResource::collection($posts);
+        }
+
+        return view('posts.index', compact('posts'));
     }
 
     /**

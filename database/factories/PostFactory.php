@@ -9,7 +9,7 @@ $factory->define(Post::class, function (Faker $faker) {
     return [
         'title' => trim(substr($faker->sentence, 0, 40)),
         'body' => '<p>' . join('</p><p>', $faker->paragraphs) . '</p>',
-        'cover_url' => $faker->imageUrl(800, 600),
+        'cover_url' => $faker->imageUrl(1280, 720),
         'summary' => trim(substr($faker->paragraph, 0, 200)),
         'views' => random_int(99, 9999),
     ];

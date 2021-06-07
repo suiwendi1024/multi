@@ -20,10 +20,11 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('comment-section', require('./components/CommentSection.vue').default);
-Vue.component('like-button', require('./components/LikeButton.vue').default);
 Vue.component('favorite-button', require('./components/FavoriteButton.vue').default);
-Vue.component('product-section', require('./components/ProductSection.vue').default);
+Vue.component('like-button', require('./components/LikeButton.vue').default);
 Vue.component('order-form', require('./components/OrderForm.vue').default);
+Vue.component('post-section', require('./components/PostSection.vue').default);
+Vue.component('product-section', require('./components/ProductSection.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
