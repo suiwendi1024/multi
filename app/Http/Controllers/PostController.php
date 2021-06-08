@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -20,19 +21,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        $query = \App\Models\Post::query();
+        $query = Post::query();
 
         if ($category = \request('category')) {
-            $query = \App\Models\Post::ofCategory($category);
+            $query = Post::ofCategory($category);
         }
         if ($search = \request('search')) {
-            $query = \App\Models\Post::where('title', 'like', "%{$search}%")
+            $query = Post::where('title', 'like', "%{$search}%")
                 ->orWhere('summary', 'like', "%{$search}%");
         }
 
-        $posts = $query->paginate();
-        // 翻页链接的路径附加分类和搜索关键词
-        $posts->setPath(route('posts.index', ['category' => $category, 'search' => $search]));
+        $posts = $query->simplePaginate()->withQueryString();
+
+        // 暴露path属性
+        collect($posts->items())->each->setAppends(['path']);
 
         if (\request()->wantsJson()) {
             return PostResource::collection($posts);
@@ -59,7 +61,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post = \App\Models\Post::create($request->validationData());
+        $post = Post::create($request->validationData());
 
         return redirect($post->path);
     }
@@ -72,11 +74,14 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = \App\Models\Post::appendIsLiked()->appendIsFavorited()->find($id);
+        $post = Post::appendIsLiked()->appendIsFavorited()->find($id);
+        $comments = $post->comments()->simplePaginate();
+
+        $comments->withPath(route('posts.comments.index', ['post' => $id]));
 
         $post->increment('views');
 
-        return view('posts.show', compact('post'));
+        return view('posts.show', compact('post', 'comments'));
     }
 
     /**
@@ -87,7 +92,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = \App\Models\Post::find($id);
+        $post = Post::find($id);
 
         $this->authorize('update', $post);
 
@@ -103,7 +108,7 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
-        $post = \App\Models\Post::find($id);
+        $post = Post::find($id);
 
         $this->authorize('update', $post);
         $post->update($request->validationData());
@@ -119,7 +124,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = \App\Models\Post::find($id);
+        $post = Post::find($id);
 
         $this->authorize('delete', $post);
         $post->delete();

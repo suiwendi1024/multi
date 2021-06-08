@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h4>{{ meta.total }}评论</h4>
+        <h4>{{ total }}评论</h4>
         <ul class="list-group list-group-flush border-top">
             <!-- 发表评论 -->
             <li class="list-group-item bg-transparent">
@@ -24,7 +24,7 @@
             </li>
             <!-- 评论 -->
             <li
-                v-for="(comment, index) in comments"
+                v-for="(comment, index) in localComments"
                 :key="comment.id"
                 class="list-group-item bg-transparent"
             >
@@ -52,6 +52,9 @@
                     </div>
                 </div>
             </li>
+            <li class="list-group-item bg-transparent text-center text-muted">
+                我是有底线的……
+            </li>
         </ul>
     </section>
 </template>
@@ -59,50 +62,63 @@
 <script>
 export default {
     name: "CommentSection",
+
+    props: {
+        total: Number,
+        comments: Object,
+    },
+
     data() {
         return {
-            comments: [],
-            meta: {},
+            localComments: this.comments.data,
+            nextPageUrl: this.comments.next_page_url,
             createForm: { body: '' },
             user: user,
             url: `/api${location.pathname}/comments`,
         };
     },
+
     mounted() {
-        this.fetchComments();
+        this.onScroll();
     },
+
     methods: {
-        fetchComments() {
-            if (this.meta.last_page > this.meta.current_page || !this.meta.hasOwnProperty('last_page')) {
-                axios.get(this.url, { params: { page: (this.meta.current_page || 0) + 1 } }).then(({ data: { data, meta } }) => {
-                    this.comments.push(...data);
-                    this.meta = meta;
-                    this.checkScroll();
+        onScroll() {
+            let scroll = () => {
+                if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
+                    window.removeEventListener('scroll', scroll, true)
+                    this.fetchData()
+                }
+            }
+
+            window.addEventListener('scroll', scroll, true)
+        },
+
+        fetchData() {
+            if (this.nextPageUrl) {
+                axios.get(this.nextPageUrl).then(response => {
+                    this.nextPageUrl = response.data.links.next
+
+                    this.localComments.push(...response.data.data);
+                    this.onScroll();
                 });
             }
         },
-        checkScroll() {
-            window.addEventListener('scroll', this.handleScroll, true);
-        },
-        handleScroll() {
-            if ($(document).height() - $(window).scrollTop() - $(window).height() < 200) {
-                window.removeEventListener('scroll', this.handleScroll, true);
-                this.fetchComments();
-            }
-        },
+
         handleSubmit() {
             if (this.createForm.body.length > 0) {
-                axios.post(this.url, this.createForm).then(({ data: { data } }) => {
+                axios.post(this.url, this.createForm).then(response => {
                     this.createForm.body = '';
-                    data.user = this.user
-                    this.comments.unshift(data);
+
+                    this.localComments.unshift(Object.assign({ user: this.user }, response.data.data()));
                 });
             }
         },
+
         handleDelete(id, index) {
             if (confirm('您坚持要删除吗？')) {
                 axios.delete(`/api/comments/${ id }`).then(() => {
-                    this.comments.splice(index, 1);
+                    this.localComments.splice(index, 1);
                 });
             }
         }

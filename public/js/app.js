@@ -1978,12 +1978,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CommentSection",
+  props: {
+    total: Number,
+    comments: Object
+  },
   data: function data() {
     return {
-      comments: [],
-      meta: {},
+      localComments: this.comments.data,
+      nextPageUrl: this.comments.next_page_url,
       createForm: {
         body: ''
       },
@@ -1992,60 +1999,56 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     };
   },
   mounted: function mounted() {
-    this.fetchComments();
+    this.onScroll();
   },
   methods: {
-    fetchComments: function fetchComments() {
+    onScroll: function onScroll() {
       var _this = this;
 
-      if (this.meta.last_page > this.meta.current_page || !this.meta.hasOwnProperty('last_page')) {
-        axios.get(this.url, {
-          params: {
-            page: (this.meta.current_page || 0) + 1
-          }
-        }).then(function (_ref) {
-          var _this$comments;
+      var scroll = function scroll() {
+        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
+          window.removeEventListener('scroll', scroll, true);
 
-          var _ref$data = _ref.data,
-              data = _ref$data.data,
-              meta = _ref$data.meta;
+          _this.fetchData();
+        }
+      };
 
-          (_this$comments = _this.comments).push.apply(_this$comments, _toConsumableArray(data));
+      window.addEventListener('scroll', scroll, true);
+    },
+    fetchData: function fetchData() {
+      var _this2 = this;
 
-          _this.meta = meta;
+      if (this.nextPageUrl) {
+        axios.get(this.nextPageUrl).then(function (response) {
+          var _this2$localComments;
 
-          _this.checkScroll();
+          _this2.nextPageUrl = response.data.links.next;
+
+          (_this2$localComments = _this2.localComments).push.apply(_this2$localComments, _toConsumableArray(response.data.data));
+
+          _this2.onScroll();
         });
       }
     },
-    checkScroll: function checkScroll() {
-      window.addEventListener('scroll', this.handleScroll, true);
-    },
-    handleScroll: function handleScroll() {
-      if ($(document).height() - $(window).scrollTop() - $(window).height() < 200) {
-        window.removeEventListener('scroll', this.handleScroll, true);
-        this.fetchComments();
-      }
-    },
     handleSubmit: function handleSubmit() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.createForm.body.length > 0) {
-        axios.post(this.url, this.createForm).then(function (_ref2) {
-          var data = _ref2.data.data;
-          _this2.createForm.body = '';
-          data.user = _this2.user;
+        axios.post(this.url, this.createForm).then(function (response) {
+          _this3.createForm.body = '';
 
-          _this2.comments.unshift(data);
+          _this3.localComments.unshift(Object.assign({
+            user: _this3.user
+          }, response.data.data()));
         });
       }
     },
     handleDelete: function handleDelete(id, index) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (confirm('您坚持要删除吗？')) {
         axios["delete"]("/api/comments/".concat(id)).then(function () {
-          _this3.comments.splice(index, 1);
+          _this4.localComments.splice(index, 1);
         });
       }
     }
@@ -2382,6 +2385,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostSection",
   props: {
@@ -2389,9 +2395,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   data: function data() {
     return {
-      postsData: this.posts.data,
-      currentPage: this.posts.current_page,
-      lastPage: this.posts.last_page
+      localPosts: this.posts.data,
+      nextPageUrl: this.posts.next_page_url
     };
   },
   computed: {
@@ -2419,18 +2424,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     fetchData: function fetchData() {
       var _this2 = this;
 
-      if (this.currentPage < this.lastPage) {
-        axios.get(location.href, {
-          params: {
-            page: this.currentPage + 1
-          }
-        }).then(function (response) {
-          var _this2$postsData;
+      if (this.nextPageUrl) {
+        axios.get(this.nextPageUrl).then(function (response) {
+          var _this2$localPosts;
 
-          _this2.currentPage = response.data.meta.current_page;
-          _this2.lastPage = response.data.meta.last_page;
+          _this2.nextPageUrl = response.data.links.next;
 
-          (_this2$postsData = _this2.postsData).push.apply(_this2$postsData, _toConsumableArray(response.data.data));
+          (_this2$localPosts = _this2.localPosts).push.apply(_this2$localPosts, _toConsumableArray(response.data.data));
 
           _this2.onScroll();
         });
@@ -38933,7 +38933,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("section", [
-    _c("h4", [_vm._v(_vm._s(_vm.meta.total) + "评论")]),
+    _c("h4", [_vm._v(_vm._s(_vm.total) + "评论")]),
     _vm._v(" "),
     _c(
       "ul",
@@ -38994,7 +38994,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.comments, function(comment, index) {
+        _vm._l(_vm.localComments, function(comment, index) {
           return _c(
             "li",
             { key: comment.id, staticClass: "list-group-item bg-transparent" },
@@ -39084,7 +39084,15 @@ var render = function() {
               ])
             ]
           )
-        })
+        }),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "list-group-item bg-transparent text-center text-muted"
+          },
+          [_vm._v("\n            我是有底线的……\n        ")]
+        )
       ],
       2
     )
@@ -39315,139 +39323,150 @@ var render = function() {
   return _c(
     "ul",
     { staticClass: "list-group list-group-flush" },
-    _vm._l(_vm.postsData, function(post) {
-      return _c(
-        "li",
-        { key: post.id, staticClass: "list-group-item bg-transparent" },
-        [
-          _c("div", { staticClass: "d-flex" }, [
-            _c("div", { staticClass: "w-75 d-flex flex-column" }, [
-              _c("h4", { staticClass: "font-weight-bold" }, [
-                _c("a", {
-                  attrs: { href: post.path, target: "_blank" },
-                  domProps: { innerHTML: _vm._s(_vm.highlight(post.title)) }
-                })
-              ]),
-              _vm._v(" "),
-              _c("p", {
-                staticClass: "text-muted flex-grow-1",
-                domProps: { innerHTML: _vm._s(_vm.highlight(post.summary)) }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "media small" }, [
-                _c("img", {
-                  staticClass: "mr-3 img-fluid rounded-circle profile-picture",
-                  attrs: { src: post.user.profile_picture_url, alt: "" }
+    [
+      _vm._l(_vm.localPosts, function(post) {
+        return _c(
+          "li",
+          { key: post.id, staticClass: "list-group-item bg-transparent" },
+          [
+            _c("div", { staticClass: "d-flex" }, [
+              _c("div", { staticClass: "w-75 d-flex flex-column" }, [
+                _c("h4", { staticClass: "font-weight-bold" }, [
+                  _c("a", {
+                    attrs: { href: post.path, target: "_blank" },
+                    domProps: { innerHTML: _vm._s(_vm.highlight(post.title)) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("p", {
+                  staticClass: "text-muted flex-grow-1",
+                  domProps: { innerHTML: _vm._s(_vm.highlight(post.summary)) }
                 }),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  {
+                _c("div", { staticClass: "media small" }, [
+                  _c("img", {
                     staticClass:
-                      "media-body align-self-center d-flex justify-content-between"
-                  },
-                  [
-                    _c("ul", { staticClass: "list-inline text-muted" }, [
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.user.name))
+                      "mr-3 img-fluid rounded-circle profile-picture",
+                    attrs: { src: post.user.profile_picture_url, alt: "" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "media-body align-self-center d-flex justify-content-between"
+                    },
+                    [
+                      _c("ul", { staticClass: "list-inline text-muted" }, [
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.user.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.category.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.views) + "浏览")
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.likes_count) + "点赞")
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.favorites_count) + "收藏")
+                        ]),
+                        _vm._v(" "),
+                        _c("li", { staticClass: "list-inline-item" }, [
+                          _vm._v(_vm._s(post.comments_count) + "评论")
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.category.name))
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.views) + "浏览")
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.likes_count) + "点赞")
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.favorites_count) + "收藏")
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "list-inline-item" }, [
-                        _vm._v(_vm._s(post.comments_count) + "评论")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "dropdown" }, [
-                      _c("a", {
-                        staticClass: "dropdown-toggle",
-                        attrs: {
-                          href: "#",
-                          role: "button",
-                          id: "dropdownMenuLink",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "dropdown-menu dropdown-menu-right",
-                          attrs: { "aria-labelledby": "dropdownMenuButton" }
-                        },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "dropdown-item",
-                              attrs: { href: "#", target: "_blank" }
-                            },
-                            [_vm._v("举报")]
-                          ),
-                          _vm._v(" "),
-                          _vm.isAuthorized(post)
-                            ? [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "dropdown-item",
-                                    attrs: {
-                                      href: post.path + "/edit",
-                                      target: "_blank"
-                                    }
-                                  },
-                                  [_vm._v("编辑")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "dropdown-item",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.handleDelete(post)
+                      _c("div", { staticClass: "dropdown" }, [
+                        _c("a", {
+                          staticClass: "dropdown-toggle",
+                          attrs: {
+                            href: "#",
+                            role: "button",
+                            id: "dropdownMenuLink",
+                            "data-toggle": "dropdown",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu dropdown-menu-right",
+                            attrs: { "aria-labelledby": "dropdownMenuButton" }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "dropdown-item",
+                                attrs: { href: "#", target: "_blank" }
+                              },
+                              [_vm._v("举报")]
+                            ),
+                            _vm._v(" "),
+                            _vm.isAuthorized(post)
+                              ? [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "dropdown-item",
+                                      attrs: {
+                                        href: post.path + "/edit",
+                                        target: "_blank"
                                       }
-                                    }
-                                  },
-                                  [_vm._v("删除")]
-                                )
-                              ]
-                            : _vm._e()
-                        ],
-                        2
-                      )
-                    ])
-                  ]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", {
-              staticClass: "w-25 ml-3 rounded post-cover",
-              style: "background-image: url(" + post.cover_url + ")"
-            })
-          ])
-        ]
+                                    },
+                                    [_vm._v("编辑")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "dropdown-item",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.handleDelete(post)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("删除")]
+                                  )
+                                ]
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", {
+                staticClass: "w-25 ml-3 rounded post-cover",
+                style: "background-image: url(" + post.cover_url + ")"
+              })
+            ])
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "li",
+        {
+          staticClass: "list-group-item bg-transparent text-center text-muted"
+        },
+        [_vm._v("\n        我是有底线的……\n    ")]
       )
-    }),
-    0
+    ],
+    2
   )
 }
 var staticRenderFns = []

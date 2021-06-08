@@ -8,7 +8,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            {{-- 左侧 --}}
+            {{-- 作者 --}}
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body text-center">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            {{-- 中间 --}}
+            {{-- 帖子 --}}
             <div class="col-md">
                 <img class="img-fluid rounded mb-5" src="{{ asset($post->cover_url) }}" alt="">
                 <h1>{{ $post->title }}</h1>
@@ -37,9 +37,13 @@
                     </li>
                 </ul>
                 {{-- 评论区 --}}
-                <comment-section class="mt-5"></comment-section>
+                <comment-section
+                    :total="{{ $post->comments_count }}"
+                    :comments="{{ $comments->toJson() }}"
+                    class="mt-5"
+                ></comment-section>
             </div>
-            {{-- 右侧 --}}
+            {{-- 分类 --}}
             <div class="col-md-1">
                 @include('posts._category-nav')
             </div>

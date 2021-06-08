@@ -1,7 +1,7 @@
 <template>
     <ul class="list-group list-group-flush">
         <li
-            v-for="post in postsData"
+            v-for="post in localPosts"
             :key="post.id"
             class="list-group-item bg-transparent"
         >
@@ -48,6 +48,9 @@
                 <div class="w-25 ml-3 rounded post-cover" :style="'background-image: url(' + post.cover_url + ')'"></div>
             </div>
         </li>
+        <li class="list-group-item bg-transparent text-center text-muted">
+            我是有底线的……
+        </li>
     </ul>
 </template>
 
@@ -61,9 +64,8 @@ export default {
 
     data() {
         return {
-            postsData: this.posts.data,
-            currentPage: this.posts.current_page,
-            lastPage: this.posts.last_page,
+            localPosts: this.posts.data,
+            nextPageUrl: this.posts.next_page_url,
         }
     },
 
@@ -90,12 +92,11 @@ export default {
         },
 
         fetchData() {
-            if (this.currentPage < this.lastPage) {
-                axios.get(location.href, { params: { page: this.currentPage + 1 } }).then(response => {
-                    this.currentPage = response.data.meta.current_page
-                    this.lastPage = response.data.meta.last_page
+            if (this.nextPageUrl) {
+                axios.get(this.nextPageUrl).then(response => {
+                    this.nextPageUrl = response.data.links.next
 
-                    this.postsData.push(...response.data.data)
+                    this.localPosts.push(...response.data.data)
                     this.onScroll()
                 })
             }
