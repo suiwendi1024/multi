@@ -1,7 +1,7 @@
 <template>
     <ul class="list-group list-group-flush">
         <li
-            v-for="post in localPosts"
+            v-for="post in items"
             :key="post.id"
             class="list-group-item bg-transparent"
         >
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import scrollLoad from "../mixins/scrollLoad";
+
 export default {
     name: "PostSection",
 
@@ -62,9 +64,13 @@ export default {
         posts: Object,
     },
 
+    mixins: [
+        scrollLoad,
+    ],
+
     data() {
         return {
-            localPosts: this.posts.data,
+            items: this.posts.data,
             nextPageUrl: this.posts.next_page_url,
         }
     },
@@ -75,33 +81,7 @@ export default {
         },
     },
 
-    mounted() {
-        this.onScroll()
-    },
-
     methods: {
-        onScroll() {
-            let scroll = () => {
-                if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
-                    window.removeEventListener('scroll', scroll, true)
-                    this.fetchData()
-                }
-            }
-
-            window.addEventListener('scroll', scroll, true)
-        },
-
-        fetchData() {
-            if (this.nextPageUrl) {
-                axios.get(this.nextPageUrl).then(response => {
-                    this.nextPageUrl = response.data.links.next
-
-                    this.localPosts.push(...response.data.data)
-                    this.onScroll()
-                })
-            }
-        },
-
         highlight(text) {
             if (this.search) {
                 return text.replace(this.search, `<span class="bg-warning">${ this.search }</span>`)

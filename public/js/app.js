@@ -1908,88 +1908,79 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+/* harmony import */ var _mixins_scrollLoad__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/scrollLoad */ "./resources/js/mixins/scrollLoad.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CommentSection",
   props: {
     total: Number,
     comments: Object
   },
+  mixins: [_mixins_scrollLoad__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      localComments: this.comments.data,
+      items: this.comments.data,
       nextPageUrl: this.comments.next_page_url,
       createForm: {
         body: ''
@@ -1998,57 +1989,26 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       url: "/api".concat(location.pathname, "/comments")
     };
   },
-  mounted: function mounted() {
-    this.onScroll();
-  },
   methods: {
-    onScroll: function onScroll() {
-      var _this = this;
-
-      var scroll = function scroll() {
-        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
-          window.removeEventListener('scroll', scroll, true);
-
-          _this.fetchData();
-        }
-      };
-
-      window.addEventListener('scroll', scroll, true);
-    },
-    fetchData: function fetchData() {
-      var _this2 = this;
-
-      if (this.nextPageUrl) {
-        axios.get(this.nextPageUrl).then(function (response) {
-          var _this2$localComments;
-
-          _this2.nextPageUrl = response.data.links.next;
-
-          (_this2$localComments = _this2.localComments).push.apply(_this2$localComments, _toConsumableArray(response.data.data));
-
-          _this2.onScroll();
-        });
-      }
-    },
     handleSubmit: function handleSubmit() {
-      var _this3 = this;
+      var _this = this;
 
       if (this.createForm.body.length > 0) {
         axios.post(this.url, this.createForm).then(function (response) {
-          _this3.createForm.body = '';
+          _this.createForm.body = '';
 
-          _this3.localComments.unshift(Object.assign({
-            user: _this3.user
+          _this.items.unshift(Object.assign({
+            user: _this.user
           }, response.data.data()));
         });
       }
     },
     handleDelete: function handleDelete(id, index) {
-      var _this4 = this;
+      var _this2 = this;
 
       if (confirm('您坚持要删除吗？')) {
         axios["delete"]("/api/comments/".concat(id)).then(function () {
-          _this4.localComments.splice(index, 1);
+          _this2.items.splice(index, 1);
         });
       }
     }
@@ -2320,82 +2280,73 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+/* harmony import */ var _mixins_scrollLoad__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/scrollLoad */ "./resources/js/mixins/scrollLoad.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostSection",
   props: {
     posts: Object
   },
+  mixins: [_mixins_scrollLoad__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      localPosts: this.posts.data,
+      items: this.posts.data,
       nextPageUrl: this.posts.next_page_url
     };
   },
@@ -2404,38 +2355,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return new URLSearchParams(location.search).get('search');
     }
   },
-  mounted: function mounted() {
-    this.onScroll();
-  },
   methods: {
-    onScroll: function onScroll() {
-      var _this = this;
-
-      var scroll = function scroll() {
-        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
-          window.removeEventListener('scroll', scroll, true);
-
-          _this.fetchData();
-        }
-      };
-
-      window.addEventListener('scroll', scroll, true);
-    },
-    fetchData: function fetchData() {
-      var _this2 = this;
-
-      if (this.nextPageUrl) {
-        axios.get(this.nextPageUrl).then(function (response) {
-          var _this2$localPosts;
-
-          _this2.nextPageUrl = response.data.links.next;
-
-          (_this2$localPosts = _this2.localPosts).push.apply(_this2$localPosts, _toConsumableArray(response.data.data));
-
-          _this2.onScroll();
-        });
-      }
-    },
     highlight: function highlight(text) {
       if (this.search) {
         return text.replace(this.search, "<span class=\"bg-warning\">".concat(this.search, "</span>"));
@@ -38994,7 +38914,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.localComments, function(comment, index) {
+        _vm._l(_vm.items, function(comment, index) {
           return _c(
             "li",
             { key: comment.id, staticClass: "list-group-item bg-transparent" },
@@ -39324,7 +39244,7 @@ var render = function() {
     "ul",
     { staticClass: "list-group list-group-flush" },
     [
-      _vm._l(_vm.localPosts, function(post) {
+      _vm._l(_vm.items, function(post) {
         return _c(
           "li",
           { key: post.id, staticClass: "list-group-item bg-transparent" },
@@ -52225,6 +52145,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductSection_vue_vue_type_template_id_7341af21_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/scrollLoad.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/scrollLoad.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    this.$_onScroll();
+  },
+  methods: {
+    $_onScroll: function $_onScroll() {
+      var _this = this;
+
+      var scroll = function scroll() {
+        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
+          window.removeEventListener('scroll', scroll, true);
+
+          _this.$_fetchData();
+        }
+      };
+
+      window.addEventListener('scroll', scroll, true);
+    },
+    $_fetchData: function $_fetchData() {
+      var _this2 = this;
+
+      if (this.nextPageUrl) {
+        axios.get(this.nextPageUrl).then(function (response) {
+          _this2.nextPageUrl = response.data.links.next;
+          _this2.items = _this2.items.concat(response.data.data);
+
+          _this2.$_onScroll();
+        });
+      }
+    }
+  }
+});
 
 /***/ }),
 

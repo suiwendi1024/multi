@@ -24,7 +24,7 @@
             </li>
             <!-- 评论 -->
             <li
-                v-for="(comment, index) in localComments"
+                v-for="(comment, index) in items"
                 :key="comment.id"
                 class="list-group-item bg-transparent"
             >
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import scrollLoad from "../mixins/scrollLoad";
+
 export default {
     name: "CommentSection",
 
@@ -68,9 +70,13 @@ export default {
         comments: Object,
     },
 
+    mixins: [
+        scrollLoad,
+    ],
+
     data() {
         return {
-            localComments: this.comments.data,
+            items: this.comments.data,
             nextPageUrl: this.comments.next_page_url,
             createForm: { body: '' },
             user: user,
@@ -78,39 +84,13 @@ export default {
         };
     },
 
-    mounted() {
-        this.onScroll();
-    },
-
     methods: {
-        onScroll() {
-            let scroll = () => {
-                if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
-                    window.removeEventListener('scroll', scroll, true)
-                    this.fetchData()
-                }
-            }
-
-            window.addEventListener('scroll', scroll, true)
-        },
-
-        fetchData() {
-            if (this.nextPageUrl) {
-                axios.get(this.nextPageUrl).then(response => {
-                    this.nextPageUrl = response.data.links.next
-
-                    this.localComments.push(...response.data.data);
-                    this.onScroll();
-                });
-            }
-        },
-
         handleSubmit() {
             if (this.createForm.body.length > 0) {
                 axios.post(this.url, this.createForm).then(response => {
                     this.createForm.body = '';
 
-                    this.localComments.unshift(Object.assign({ user: this.user }, response.data.data()));
+                    this.items.unshift(Object.assign({ user: this.user }, response.data.data()));
                 });
             }
         },
@@ -118,7 +98,7 @@ export default {
         handleDelete(id, index) {
             if (confirm('您坚持要删除吗？')) {
                 axios.delete(`/api/comments/${ id }`).then(() => {
-                    this.localComments.splice(index, 1);
+                    this.items.splice(index, 1);
                 });
             }
         }
