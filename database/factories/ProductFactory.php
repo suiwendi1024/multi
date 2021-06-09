@@ -15,15 +15,8 @@ $factory->define(Product::class, function (Faker $faker) {
     ];
 });
 
-// 多对一关联
-$factory->state(Product::class, 'new', function () {
-    return [
-        'category_id' => factory(\App\Models\Category::class)->create(['type' => 'product']),
-    ];
-});
-
 // 多对一关联Category模型
-$factory->state(Product::class, 'category', function () {
+$factory->state(Product::class, 'withCategory', function () {
     return [
         'category_id' => factory(\App\Models\Category::class)->create(['type' => 'product']),
     ];

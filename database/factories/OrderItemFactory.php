@@ -11,35 +11,23 @@ $factory->define(OrderItem::class, function (Faker $faker) {
     ];
 });
 
-// 多对一关联
-$factory->state(OrderItem::class, 'new', function () {
-    $product = factory(\App\Models\Product::class)->states('category')->create();
-    $quantity = random_int(1, 5);
-
-    return [
-        'order_id' => factory(\App\Models\Order::class)->states('user')->create(), // 省略“->id”
-        'product_id' => $product, // 省略“->id”
-        'quantity' => $quantity,
-        'amount' => $product->price * $quantity,
-    ];
-});
-
 // 多对一关联Order模型
-$factory->state(OrderItem::class, 'order', function () {
+$factory->state(OrderItem::class, 'withOrder', function () {
     return [
-        'order_id' => factory(\App\Models\Order::class)->states('user')->create(), // 省略“->id”
+        'order_id' => factory(\App\Models\Order::class)->states('withUser')->create(), // 省略“->id”
     ];
 });
 
 // 多对一关联Product模型
-$factory->state(OrderItem::class, 'product', function () {
+$factory->state(OrderItem::class, 'withProduct', function () {
     return [
-        'product_id' => factory(\App\Models\Product::class)->states('category')->create(), // 省略“->id”
+        'product_id' => factory(\App\Models\Product::class)->states('withCategory')->create(), // 省略“->id”
     ];
 });
 
 // 更新金额
 $factory->afterCreating(OrderItem::class, function (OrderItem $orderItem, $faker) {
+    $orderItem->increment('amount', $orderItem->product->price * $orderItem->quantity);
     // 更新总计
     $orderItem->order->increment('total', $orderItem->amount);
 });

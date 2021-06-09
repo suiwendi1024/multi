@@ -16,7 +16,7 @@ class PostControllerTest extends TestCase
     public function testIndex()
     {
         // 由于要查询排行榜，所以生成大于排行榜数量10的数据
-        $posts = factory(\App\Models\Post::class, 15)->state('new')->create();
+        $posts = factory(\App\Models\Post::class, 15)->states('withUser', 'withCategory')->create();
         $con = $this->getConnection();
 
         $con->enableQueryLog(); // 开启查询记录
@@ -54,7 +54,7 @@ class PostControllerTest extends TestCase
 
     public function testStore()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->make(['id' => 1]);
+        $post = factory(\App\Models\Post::class)->states('withUser', 'withCategory')->make(['id' => 1]);
 
         // 未登录
         $this->postStore()->assertRedirect(route('login'));
@@ -86,7 +86,7 @@ class PostControllerTest extends TestCase
      */
     public function testShow()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->create();
+        $post = $this->getPost();
 
         $this->get($post->path)->assertSee($post->title);
 
@@ -96,7 +96,7 @@ class PostControllerTest extends TestCase
 
     public function testEdit()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->create();
+        $post = $this->getPost();
 
         // 未登录
         $this->getEdit()->assertRedirect(route('login'));
@@ -120,7 +120,7 @@ class PostControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->create();
+        $post = $this->getPost();
         $user = factory(\App\User::class)->create();
 
         // 未登录
@@ -150,7 +150,7 @@ class PostControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->create();
+        $post = $this->getPost();
 
         // 未登录
         $this->deleteDestroy()->assertRedirect(route('login'));
@@ -162,6 +162,14 @@ class PostControllerTest extends TestCase
         // 授权
         $this->actingAs($post->user);
         $this->deleteDestroy()->assertRedirect(route('posts.index'));
+    }
+
+    /**
+     * @return \App\Models\Post|\App\Models\Post[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
+     */
+    protected function getPost()
+    {
+        return factory(\App\Models\Post::class)->states('withUser', 'withCategory')->create();
     }
 
     /**

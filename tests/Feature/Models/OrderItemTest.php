@@ -2,10 +2,23 @@
 
 namespace Tests\Feature\Models;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
-class OrderItemTest extends ModelTest
+class OrderItemTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected $model;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->model = factory(\App\Models\OrderItem::class)->states('withProduct', 'withOrder')->create();
+    }
+
     /**
      * 多对一关联Order模型。
      */

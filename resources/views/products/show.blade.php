@@ -27,13 +27,15 @@
         </div>
         <div class="row">
             <div class="col-md-2 border-right">
-                @foreach($side_products as $product)
+                @forelse($side_products as $product)
                     <img class="img-fluid mb-1" src="{{ asset($product->cover_url) }}" alt="">
                     <h5>
                         <a href="{{ $product->path }}" target="_blank">{{ $product->name }}</a>
                     </h5>
                     <span class="text-danger">￥{{ $product->price }}</span>
-                @endforeach
+                @empty
+                    <div class="alert alert-warning text-center">暂无数据。</div>
+                @endforelse
             </div>
             <div class="col-md">
                 <div class="lead">{!! $product->description !!}</div>
@@ -41,6 +43,5 @@
                 <comment-section class="mt-5"></comment-section>
             </div>
         </div>
-
     </div>
 @endsection

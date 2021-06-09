@@ -27,8 +27,8 @@ class PostController extends Controller
             $query = Post::ofCategory($category);
         }
         if ($search = \request('search')) {
-            $query = Post::where('title', 'like', "%{$search}%")
-                ->orWhere('summary', 'like', "%{$search}%");
+            $like = "%{$search}%";
+            $query = Post::where('title', 'like', $like)->orWhere('summary', 'like', $like);
         }
 
         $posts = $query->simplePaginate()->withQueryString();

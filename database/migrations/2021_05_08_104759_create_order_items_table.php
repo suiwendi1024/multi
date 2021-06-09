@@ -17,8 +17,8 @@ class CreateOrderItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id')->index()->comment('orders表外键');
             $table->unsignedBigInteger('product_id')->index()->comment('products表外键');
-            $table->unsignedTinyInteger('quantity')->comment('数量');
-            $table->decimal('amount')->comment('金额');
+            $table->unsignedTinyInteger('quantity')->default(1)->comment('数量');
+            $table->decimal('amount')->default(0)->comment('金额');
             $table->timestamps();
         });
     }
