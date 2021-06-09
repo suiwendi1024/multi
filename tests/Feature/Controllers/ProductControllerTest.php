@@ -30,13 +30,13 @@ class ProductControllerTest extends TestCase
         $this->assertSameSize(array_unique($queries), $queries);
     }
 
-    // /**
-    //  * 测试show方法可以显示产品。
-    //  */
-    // public function testShow()
-    // {
-    //     $product = factory(\App\Models\Product::class)->states('withCategory')->create();
-    //
-    //     $this->get($product->path)->assertSee($product->name);
-    // }
+    /**
+     * 测试show方法可以显示产品。
+     */
+    public function testShow()
+    {
+        $product = factory(\App\Models\Product::class)->states('withCategory')->create();
+
+        $this->get($product->path)->assertSee($product->name);
+    }
 }
