@@ -24,7 +24,7 @@ class OrderTest extends TestCase
     /**
      * 一对多关联OrderItem模型。
      */
-    public function testItems()
+    public function testModelHasItems()
     {
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->model->items);
     }

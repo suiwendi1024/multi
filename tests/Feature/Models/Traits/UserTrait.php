@@ -7,7 +7,7 @@ trait UserTrait
     /**
      * 多对一关联User模型。
      */
-    public function testUser()
+    public function testModelHasUser()
     {
         $this->assertInstanceOf(\App\User::class, $this->model->user);
     }

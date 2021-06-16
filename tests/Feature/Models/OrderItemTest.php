@@ -22,7 +22,7 @@ class OrderItemTest extends TestCase
     /**
      * 多对一关联Order模型。
      */
-    public function testOrder()
+    public function testModelHasOrder()
     {
         $this->assertInstanceOf(\App\Models\Order::class, $this->model->order);
     }
@@ -30,7 +30,7 @@ class OrderItemTest extends TestCase
     /**
      * 多对一关联Product模型。
      */
-    public function testProduct()
+    public function testModelHasProduct()
     {
         $this->assertInstanceOf(\App\Models\Product::class, $this->model->product);
     }
