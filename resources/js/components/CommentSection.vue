@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import scrollLoad from "../mixins/scrollLoad";
+import scrollLoad from "../mixins/scrollLoad"
 
 export default {
     name: "CommentSection",
@@ -81,25 +81,25 @@ export default {
             createForm: { body: '' },
             user: user,
             url: `/api${location.pathname}/comments`,
-        };
+        }
     },
 
     methods: {
         handleSubmit() {
             if (this.createForm.body.length > 0) {
                 axios.post(this.url, this.createForm).then(response => {
-                    this.createForm.body = '';
+                    this.createForm.body = ''
 
-                    this.items.unshift(Object.assign({ user: this.user }, response.data.data()));
-                });
+                    this.items.unshift(Object.assign({ user: this.user }, response.data.data))
+                })
             }
         },
 
         handleDelete(id, index) {
             if (confirm('您坚持要删除吗？')) {
                 axios.delete(`/api/comments/${ id }`).then(() => {
-                    this.items.splice(index, 1);
-                });
+                    this.items.splice(index, 1)
+                })
             }
         }
     }
@@ -108,6 +108,6 @@ export default {
 
 <style scoped>
     .profile-picture {
-        width: 80px;
+        width: 80px
     }
 </style>

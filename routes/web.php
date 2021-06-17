@@ -26,6 +26,8 @@ Route::get('/shop', 'ProductController@index')->name('products.index');
 Route::resource('products', 'ProductController')->only('show');
 // 商店订单
 Route::resource('orders', 'OrderController');
+// 购物车
+Route::resource('cart', 'CartController');
 // 个人空间
 Route::get('/profile/{user}', 'UserController@profile');
 // 个人中心

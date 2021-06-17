@@ -1999,7 +1999,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.items.unshift(Object.assign({
             user: _this.user
-          }, response.data.data()));
+          }, response.data.data));
         });
       }
     },
@@ -6951,7 +6951,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.profile-picture[data-v-0d3347b1] {\n    width: 80px;\n}\n", ""]);
+exports.push([module.i, "\n.profile-picture[data-v-0d3347b1] {\n    width: 80px\n}\n", ""]);
 
 // exports
 

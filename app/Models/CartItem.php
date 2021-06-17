@@ -5,12 +5,12 @@ namespace App\Models;
 use App\Models\Traits\ProductTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
+class CartItem extends Model
 {
     use ProductTrait;
 
     protected $fillable = [
-        'order_id',
+        'cart_id',
         'quantity',
         'amount',
     ];
@@ -18,8 +18,8 @@ class OrderItem extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function order()
+    public function cart()
     {
-        return $this->belongsTo(\App\Models\Order::class);
+        return $this->belongsTo(\App\Models\Cart::class);
     }
 }

@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CartController extends Controller
+class CartItemController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->only('index');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +13,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = \Auth::user()->cart;
-
-        return view('cart.index', compact('cart'));
+        //
     }
 
     /**
@@ -75,7 +68,7 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        //
     }
 
     /**
