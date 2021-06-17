@@ -2,12 +2,12 @@
 
 namespace App\Models\Traits;
 
-trait CommentTrait
+trait CommentsTrait
 {
     /**
      * 静态初始化方法。
      */
-    public static function bootCommentTrait()
+    public static function bootCommentsTrait()
     {
         // 默认查询当前模型的评论数量
         static::addGlobalScope('comments_count', function (\Illuminate\Database\Eloquent\Builder $builder) {

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\LikeTrait;
+use App\Models\Traits\LikesTrait;
 use App\Models\Traits\ParentTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ class Comment extends Model
 {
     use UserTrait,
         ParentTrait,
-        LikeTrait;
+        LikesTrait;
 
     protected $fillable = [
         'commentable_type',
