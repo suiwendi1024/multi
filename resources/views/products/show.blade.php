@@ -16,25 +16,11 @@
             <div class="col-md-6 d-flex flex-column">
                 <div class="flex-grow-1">
                     <h3>{{ $product->name }}</h3>
-                    <table>
-                        <tr>
-                            <td>价格</td>
-                            <td class="text-danger h4">￥{{ $product->price }}</td>
-                        </tr>
-                    </table>
-                    <form action="">
-                        <div class="form-group row">
-                            <label for="inputQuantity" class="col-sm-2 col-form-label">数量</label>
-                            <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputQuantity" value="1" min="1" max="999">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div>
-                    <a href="/orders/create" type="button" class="btn btn-light btn-lg border-danger text-danger" onclick="if (!user) { location.href = '/login'; }">立即购买</a>
-                    <button type="button" class="btn btn-danger btn-lg" onclick="if (user) {  } else { location.href = '/login'; }">加入购物车</button>
+                    <div class="row">
+                        <div class="col-sm-2">价格</div>
+                        <div class="col-sm-10 text-danger h4">￥{{ $product->price }}</div>
+                    </div>
+                    <product-type-form :product="{{ $product }}"></product-type-form>
                 </div>
             </div>
             <div class="col-md-2"></div>

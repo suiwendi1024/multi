@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WareRequest;
+use App\Http\Resources\WareResource;
 use Illuminate\Http\Request;
 
-class CartItemController extends Controller
+class WareController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -32,9 +39,23 @@ class CartItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WareRequest $request)
     {
-        //
+        if ($request->wantsJson()) {
+            $attributes = $request->validationData();
+            $where = [
+                'subject_type' => $attributes['subject_type'],
+                'subject_id' => $attributes['subject_id'],
+                'product_id' => $attributes['product_id'],
+                'type' => $attributes['type'],
+            ];
+
+            if (!$ware = \App\Models\Ware::where($where)->first()) {
+                $ware = \App\Models\Ware::create($request->validationData());
+            }
+
+            return WareResource::make($ware);
+        }
     }
 
     /**
@@ -66,9 +87,11 @@ class CartItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(WareRequest $request, $id)
     {
-        //
+        if ($request->wantsJson()) {
+            return \App\Models\Ware::find($id)->update($request->validationData());
+        }
     }
 
     /**

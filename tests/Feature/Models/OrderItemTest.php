@@ -16,7 +16,7 @@ class OrderItemTest extends TestCase
     {
         parent::setUp();
 
-        $this->model = factory(\App\Models\OrderItem::class)->states('withProduct', 'withOrder')->create();
+        $this->model = factory(\App\Models\Ware::class)->states('withProduct', 'withOrder')->create();
     }
 
     /**

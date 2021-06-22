@@ -52,7 +52,7 @@ class CommentSeeder extends Seeder
     public function getUsers()
     {
         if (empty($this->users)) {
-            $this->users = \App\User::ofType('user')->get();
+            $this->users = \App\User::whereType('user')->get();
         }
         return $this->users;
     }

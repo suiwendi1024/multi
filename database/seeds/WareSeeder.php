@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class OrderItemSeeder extends Seeder
+class WareSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,13 +21,15 @@ class OrderItemSeeder extends Seeder
             $quantity = random_int(1, 5);
 
             $records[] = [
-                'order_id' => $orders->random()->id,
+                'subject_type' => $orders[0]->getMorphClass(),
+                'subject_id' => $orders->random()->id,
                 'product_id' => $product->id,
                 'amount' => $product->price * $quantity,
                 'quantity' => $quantity,
+                'type' => 'paid',
             ];
         }
 
-        factory(\App\Models\OrderItem::class)->createMany($records);
+        factory(\App\Models\Ware::class)->createMany($records);
     }
 }

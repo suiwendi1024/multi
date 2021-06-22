@@ -7,7 +7,7 @@ trait ProductTrait
     /**
      * 动态初始化方法。
      */
-    public function initializeCategoryTrait()
+    public function initializeProductTrait()
     {
         $attribute = 'product_id';
 

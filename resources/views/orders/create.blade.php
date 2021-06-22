@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \App\Models\Product[] $products
+ * @var \App\Models\Ware[] $wares
  */
 ?>
 @extends('layouts.app')
@@ -11,7 +11,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <order-form :products="{{ $products }}"></order-form>
+                        <order-form :wares="{{ $wares }}"></order-form>
                     </div>
                 </div>
             </div>
