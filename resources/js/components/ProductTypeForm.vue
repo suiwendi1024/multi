@@ -40,6 +40,7 @@ export default {
                     if (type === 'order') {
                         location.href = '/orders/create'
                     }
+                    alert('已加入购物车！')
                 })
             } else {
                 location.href = '/login'

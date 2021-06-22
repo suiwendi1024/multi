@@ -33,7 +33,6 @@ class OrderController extends Controller
         $wares = \App\Models\Ware::whereType('order')
             ->whereSubjectType(\Auth::user()->getMorphClass())
             ->whereSubjectId(\Auth::id())
-            ->with('product')
             ->get();
 
         return view('orders.create', compact('wares'));

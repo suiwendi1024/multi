@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\WareRequest;
+use App\Http\Requests\StoreWareRequest;
+use App\Http\Requests\UpdateWareRequest;
 use App\Http\Resources\WareResource;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,11 @@ class WareController extends Controller
      */
     public function index()
     {
-        //
+        $wares = \App\Models\Ware::whereSubjectType(\Auth::user()->getMorphClass())
+            ->whereSubjectId(\Auth::id())
+            ->get();
+
+        return view('wares.index', compact('wares'));
     }
 
     /**
@@ -39,7 +44,7 @@ class WareController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(WareRequest $request)
+    public function store(StoreWareRequest $request)
     {
         if ($request->wantsJson()) {
             $attributes = $request->validationData();
@@ -87,10 +92,14 @@ class WareController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(WareRequest $request, $id)
+    public function update(UpdateWareRequest $request, $id)
     {
         if ($request->wantsJson()) {
-            return \App\Models\Ware::find($id)->update($request->validationData());
+            $ware = \App\Models\Ware::find($id);
+            $attributes = $request->validationData();
+            $attributes['amount'] = $ware->product->price * $attributes['quantity'];
+
+            return $ware->update($attributes);
         }
     }
 

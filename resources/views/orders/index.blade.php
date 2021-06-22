@@ -9,7 +9,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @empty($orders->items())
+                <h2>我的订单</h2>
+                @empty($orders->count())
                     <div class="alert alert-warning" role="alert">暂无数据。</div>
                 @else
                     <ul class="list-group list-group-flush">

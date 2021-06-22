@@ -30,6 +30,9 @@ Route::resource('products', 'ProductController')->only('show');
 // 商店订单
 Route::resource('orders', 'OrderController')->only('index', 'create');
 
+// 购物车
+Route::resource('wares', 'WareController')->only('index');
+
 // 后台
 Route::namespace('Admin')->group(function () {
     // 首页

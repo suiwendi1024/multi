@@ -2201,6 +2201,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "OrderForm",
   props: {
@@ -2220,11 +2228,11 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var index in this.wares) {
         if (this.wares.hasOwnProperty(index)) {
-          total += this.wares[index].product.price.replace('.', '') * this.items[index].quantity / 100;
+          total += this.wares[index].product.price.replace('.', '') * this.items[index].quantity;
         }
       }
 
-      return total;
+      return total / 100;
     }
   },
   methods: {
@@ -2247,6 +2255,12 @@ __webpack_require__.r(__webpack_exports__);
         wares: this.items
       }).then(function () {
         location.href = '/orders';
+      });
+    },
+    handleChange: function handleChange(index) {
+      axios.patch("/api/wares/".concat(this.items[index].id), {
+        quantity: this.items[index].quantity
+      }).then(function () {//
       });
     }
   }
@@ -2529,6 +2543,8 @@ __webpack_require__.r(__webpack_exports__);
           if (type === 'order') {
             location.href = '/orders/create';
           }
+
+          alert('已加入购物车！');
         });
       } else {
         location.href = '/login';
@@ -39219,6 +39235,9 @@ var render = function() {
                         attrs: { type: "number", min: "1", max: "999" },
                         domProps: { value: _vm.items[index].quantity },
                         on: {
+                          change: function($event) {
+                            return _vm.handleChange(index)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return

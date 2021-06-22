@@ -40,4 +40,4 @@ Route::apiResource('products', 'ProductController')->only('index');
 Route::apiResource('orders', 'OrderController')->only('store');
 
 // 购物车
-Route::apiResource('wares', 'WareController')->only('store');
+Route::apiResource('wares', 'WareController')->only('store', 'update');

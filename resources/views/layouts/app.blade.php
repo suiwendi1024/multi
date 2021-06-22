@@ -72,6 +72,8 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     {{-- 我的订单 --}}
                                     <a href="{{ route('orders.index') }}" class="dropdown-item">我的订单</a>
+                                    {{-- 购物车 --}}
+                                    <a href="{{ route('wares.index') }}" class="dropdown-item">购物车</a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
