@@ -33,7 +33,7 @@ class StoreWareRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'exists:products,id'],
-            'quantity' => ['required', 'int', 'max:999', 'min:1'],
+            'quantity' => ['required', 'numeric', 'max:999', 'min:1'],
             'type' => ['string'],
         ];
     }

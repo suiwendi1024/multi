@@ -24,7 +24,7 @@ class UpdateWareRequest extends FormRequest
     public function rules()
     {
         return [
-            'quantity' => ['required', 'int', 'max:999', 'min:1'],
+            'quantity' => ['required', 'numeric', 'max:999', 'min:1'],
         ];
     }
 }

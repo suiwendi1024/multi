@@ -55,4 +55,12 @@ class LoginController extends Controller
     {
         return Auth::guard('admin');
     }
+
+    protected function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials['type'] = 'admin';
+
+        return $credentials;
+    }
 }

@@ -7145,7 +7145,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.post-cover[data-v-50cbea8a] {\n    height: 8rem;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: cover;\n}\n.profile-picture[data-v-50cbea8a] {\n    width: 30px;\n}\n", ""]);
+exports.push([module.i, "\n.post-cover[data-v-50cbea8a] {\r\n    height: 8rem;\r\n    background-position: center;\r\n    background-repeat: no-repeat;\r\n    background-size: cover;\n}\n.profile-picture[data-v-50cbea8a] {\r\n    width: 30px;\n}\r\n", ""]);
 
 // exports
 
