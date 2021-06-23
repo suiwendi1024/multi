@@ -11,7 +11,7 @@ class LikeSeeder extends Seeder
      */
     public function run()
     {
-        $users = \App\User::ofType('user')->get();
+        $users = \App\User::whereType('user')->get();
         $posts = \App\Models\Post::latest('id')->limit(40)->get();
         $comments = \App\Models\Comment::latest('id')->limit(100)->get();
         $likeables = $posts->concat($comments);

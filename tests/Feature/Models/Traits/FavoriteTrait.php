@@ -7,7 +7,7 @@ trait FavoriteTrait
     /**
      * 一对多关联Favorite模型。
      */
-    public function testFavorites()
+    public function testModelHasFavorites()
     {
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->model->favorites);
     }

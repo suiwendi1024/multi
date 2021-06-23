@@ -15,23 +15,15 @@ $factory->define(Post::class, function (Faker $faker) {
     ];
 });
 
-// 多对一关联
-$factory->state(Post::class, 'new', function () {
-    return [
-        'user_id' => factory(\App\User::class)->create(), // 省略“->id”
-        'category_id' => factory(\App\Models\Category::class)->create(),
-    ];
-});
-
 // 多对一关联User模型
-$factory->state(Post::class, 'user', function () {
+$factory->state(Post::class, 'withUser', function () {
     return [
         'user_id' => factory(\App\User::class)->create(), // 省略“->id”
     ];
 });
 
 // 多对一关联Category模型
-$factory->state(Post::class, 'category', function () {
+$factory->state(Post::class, 'withCategory', function () {
     return [
         'category_id' => factory(\App\Models\Category::class)->create(),
     ];

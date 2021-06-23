@@ -11,27 +11,16 @@ $factory->define(Comment::class, function (Faker $faker) {
     ];
 });
 
-// 多对一关联
-$factory->state(Comment::class, 'new', function () {
-    $post = factory(\App\Models\Post::class)->states('user', 'category')->create();
-
-    return [
-        'user_id' => factory(\App\User::class)->create(),
-        'commentable_type' => $post->getMorphClass(),
-        'commentable_id' => $post,
-    ];
-});
-
 // 多对一关联User模型
-$factory->state(Comment::class, 'user', function () {
+$factory->state(Comment::class, 'withUser', function () {
     return [
         'user_id' => factory(\App\User::class)->create(),
     ];
 });
 
 // 多对一关联Post模型
-$factory->state(Comment::class, 'post', function () {
-    $post = factory(\App\Models\Post::class)->states('user', 'category')->create();
+$factory->state(Comment::class, 'withPost', function () {
+    $post = factory(\App\Models\Post::class)->states('withUser', 'withCategory')->create();
 
     return [
         'commentable_type' => $post->getMorphClass(),

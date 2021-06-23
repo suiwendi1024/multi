@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h4>{{ meta.total }}评论</h4>
+        <h4>{{ total }}评论</h4>
         <ul class="list-group list-group-flush border-top">
             <!-- 发表评论 -->
             <li class="list-group-item bg-transparent">
@@ -24,7 +24,7 @@
             </li>
             <!-- 评论 -->
             <li
-                v-for="(comment, index) in comments"
+                v-for="(comment, index) in items"
                 :key="comment.id"
                 class="list-group-item bg-transparent"
             >
@@ -52,58 +52,54 @@
                     </div>
                 </div>
             </li>
+            <li class="list-group-item bg-transparent text-center text-muted">
+                我是有底线的……
+            </li>
         </ul>
     </section>
 </template>
 
 <script>
+import scrollLoad from "../mixins/scrollLoad"
+
 export default {
     name: "CommentSection",
+
+    props: {
+        total: Number,
+        comments: Object,
+    },
+
+    mixins: [
+        scrollLoad,
+    ],
+
     data() {
         return {
-            comments: [],
-            meta: {},
+            items: this.comments.data,
+            nextPageUrl: this.comments.next_page_url,
             createForm: { body: '' },
             user: user,
             url: `/api${location.pathname}/comments`,
-        };
+        }
     },
-    mounted() {
-        this.fetchComments();
-    },
+
     methods: {
-        fetchComments() {
-            if (this.meta.last_page > this.meta.current_page || !this.meta.hasOwnProperty('last_page')) {
-                axios.get(this.url, { params: { page: (this.meta.current_page || 0) + 1 } }).then(({ data: { data, meta } }) => {
-                    this.comments.push(...data);
-                    this.meta = meta;
-                    this.checkScroll();
-                });
-            }
-        },
-        checkScroll() {
-            window.addEventListener('scroll', this.handleScroll, true);
-        },
-        handleScroll() {
-            if ($(document).height() - $(window).scrollTop() - $(window).height() < 200) {
-                window.removeEventListener('scroll', this.handleScroll, true);
-                this.fetchComments();
-            }
-        },
         handleSubmit() {
             if (this.createForm.body.length > 0) {
-                axios.post(this.url, this.createForm).then(({ data: { data } }) => {
-                    this.createForm.body = '';
-                    data.user = this.user
-                    this.comments.unshift(data);
-                });
+                axios.post(this.url, this.createForm).then(response => {
+                    this.createForm.body = ''
+
+                    this.items.unshift(Object.assign({ user: this.user }, response.data.data))
+                })
             }
         },
+
         handleDelete(id, index) {
             if (confirm('您坚持要删除吗？')) {
                 axios.delete(`/api/comments/${ id }`).then(() => {
-                    this.comments.splice(index, 1);
-                });
+                    this.items.splice(index, 1)
+                })
             }
         }
     }
@@ -112,6 +108,6 @@ export default {
 
 <style scoped>
     .profile-picture {
-        width: 80px;
+        width: 80px
     }
 </style>

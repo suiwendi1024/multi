@@ -1,7 +1,7 @@
 <template>
     <ul class="list-group list-group-flush">
         <li
-            v-for="post in postsData"
+            v-for="post in items"
             :key="post.id"
             class="list-group-item bg-transparent"
         >
@@ -48,10 +48,15 @@
                 <div class="w-25 ml-3 rounded post-cover" :style="'background-image: url(' + post.cover_url + ')'"></div>
             </div>
         </li>
+        <li class="list-group-item bg-transparent text-center text-muted">
+            我是有底线的……
+        </li>
     </ul>
 </template>
 
 <script>
+import scrollLoad from "../mixins/scrollLoad";
+
 export default {
     name: "PostSection",
 
@@ -59,11 +64,14 @@ export default {
         posts: Object,
     },
 
+    mixins: [
+        scrollLoad,
+    ],
+
     data() {
         return {
-            postsData: this.posts.data,
-            currentPage: this.posts.current_page,
-            lastPage: this.posts.last_page,
+            items: this.posts.data,
+            nextPageUrl: this.posts.next_page_url,
         }
     },
 
@@ -73,34 +81,7 @@ export default {
         },
     },
 
-    mounted() {
-        this.onScroll()
-    },
-
     methods: {
-        onScroll() {
-            let scroll = () => {
-                if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight < 200) {
-                    window.removeEventListener('scroll', scroll, true)
-                    this.fetchData()
-                }
-            }
-
-            window.addEventListener('scroll', scroll, true)
-        },
-
-        fetchData() {
-            if (this.currentPage < this.lastPage) {
-                axios.get(location.href, { params: { page: this.currentPage + 1 } }).then(response => {
-                    this.currentPage = response.data.meta.current_page
-                    this.lastPage = response.data.meta.last_page
-
-                    this.postsData.push(...response.data.data)
-                    this.onScroll()
-                })
-            }
-        },
-
         highlight(text) {
             if (this.search) {
                 return text.replace(this.search, `<span class="bg-warning">${ this.search }</span>`)

@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Models\Traits\PostTrait;
+use App\Models\Traits\PostsTrait;
 use App\Models\Traits\TypeTrait;
+use App\Models\Traits\WaresTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,8 +12,9 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable,
-        PostTrait,
-        TypeTrait;
+        PostsTrait,
+        TypeTrait,
+        WaresTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -69,5 +71,10 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(\App\Models\Favorite::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(\App\Models\Order::class);
     }
 }

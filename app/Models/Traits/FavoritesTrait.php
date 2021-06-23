@@ -2,12 +2,12 @@
 
 namespace App\Models\Traits;
 
-trait FavoriteTrait
+trait FavoritesTrait
 {
     /**
      * 静态初始化方法。
      */
-    public static function bootFavoriteTrait()
+    public static function bootFavoritesTrait()
     {
         // 默认查询当前模型的收藏数量
         static::addGlobalScope('favorites_count', function (\Illuminate\Database\Eloquent\Builder $builder) {

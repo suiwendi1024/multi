@@ -4,12 +4,12 @@ namespace App\Models\Traits;
 
 use App\Models\Like;
 
-trait LikeTrait
+trait LikesTrait
 {
     /**
      * 静态初始化方法。
      */
-    public static function bootLikeTrait()
+    public static function bootLikesTrait()
     {
         // 默认查询当前模型的点赞数量
         static::addGlobalScope('likes_count', function (\Illuminate\Database\Eloquent\Builder $builder) {

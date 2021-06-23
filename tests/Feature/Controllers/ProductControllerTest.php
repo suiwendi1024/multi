@@ -12,7 +12,7 @@ class ProductControllerTest extends TestCase
 
     public function testIndex()
     {
-        $products = factory(\App\Models\Product::class, 2)->state('new')->create();
+        $products = factory(\App\Models\Product::class, 2)->states('withCategory')->create();
         $con = $this->getConnection();
 
         $con->enableQueryLog(); // 开启查询记录
@@ -35,7 +35,7 @@ class ProductControllerTest extends TestCase
      */
     public function testShow()
     {
-        $product = factory(\App\Models\Product::class)->state('new')->create();
+        $product = factory(\App\Models\Product::class)->states('withCategory')->create();
 
         $this->get($product->path)->assertSee($product->name);
     }

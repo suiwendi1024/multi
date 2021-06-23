@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \Illuminate\Http\Resources\Json\ResourceCollection $posts
+ * @var \Illuminate\Pagination\LengthAwarePaginator $posts
  * @var \App\Models\Post[]|\Illuminate\Pagination\LengthAwarePaginator $ranking_posts
  */
 ?>

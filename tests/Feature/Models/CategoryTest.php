@@ -12,9 +12,6 @@ class CategoryTest extends TestCase
     use RefreshDatabase,
         PostTrait;
 
-    /**
-     * @var \App\Models\Category|\App\Models\Category[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed
-     */
     protected $model;
 
     protected function setUp(): void

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Traits\CategoryTrait;
-use App\Models\Traits\CommentTrait;
-use App\Models\Traits\FavoriteTrait;
-use App\Models\Traits\LikeTrait;
+use App\Models\Traits\CommentsTrait;
+use App\Models\Traits\FavoritesTrait;
+use App\Models\Traits\LikesTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,9 +15,9 @@ class Post extends Model
     use SoftDeletes,
         UserTrait,
         CategoryTrait,
-        CommentTrait,
-        LikeTrait,
-        FavoriteTrait;
+        CommentsTrait,
+        LikesTrait,
+        FavoritesTrait;
 
     protected $fillable = [
         'title',

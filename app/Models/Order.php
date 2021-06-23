@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Models\Traits\UserTrait;
+use App\Models\Traits\WaresTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use UserTrait;
+    use UserTrait,
+        WaresTrait;
 
     protected $fillable = [
         'total',
@@ -22,13 +24,5 @@ class Order extends Model
     {
         static::addGlobalScope(new \App\Scopes\ReverseScope());
         static::addGlobalScope(new \App\Scopes\UserScope());
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items()
-    {
-        return $this->hasMany(\App\Models\OrderItem::class);
     }
 }

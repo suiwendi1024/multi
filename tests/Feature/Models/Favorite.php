@@ -2,10 +2,22 @@
 
 namespace Tests\Feature\Models;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Feature\Models\Traits\UserTrait;
+use Tests\TestCase;
 
-class Favorite extends ModelTest
+class Favorite extends TestCase
 {
-    use UserTrait;
+    use RefreshDatabase,
+        UserTrait;
+
+    protected $model;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->model = factory(\App\Models\Favorite::class)->states('withUser', 'withPost')->create();
+    }
 }

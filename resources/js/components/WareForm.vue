@@ -1,5 +1,5 @@
 <template>
-    <form action="" method="post" @submit.prevent="handleSubmit">
+    <form action="">
         <ul class="list-group list-group-flush">
             <li
                 v-for="(ware, index) in wares"
@@ -7,7 +7,18 @@
                 class="list-group-item"
             >
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-2 d-flex">
+                        <div class="custom-control custom-checkbox align-self-center">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                :id="'customCheck' + index"
+                                v-model="items[index].is_selected"
+                                @change="handleChange(index)"
+                            >
+                            <label class="custom-control-label" :for="'customCheck' + index"></label>
+                        </div>
+
                         <img class="img-fluid" :src="ware.product.cover_url" alt="">
                     </div>
                     <div class="col-md">
@@ -18,13 +29,14 @@
                                 <input class="form-control-plaintext text-danger" type="text" readonly
                                        :value="'￥' + ware.product.price">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md">
                                 <input
-                                    class="form-control-plaintext"
-                                    type="text"
-                                    :value="'x' + items[index].quantity"
+                                    class="form-control"
+                                    type="number"
+                                    v-model="items[index].quantity"
                                     min="1"
                                     max="999"
+                                    @change="handleChange(index)"
                                 >
                             </div>
                         </div>
@@ -34,13 +46,13 @@
             <li class="list-group-item text-right">{{ total }}</li>
         </ul>
 
-        <button class="btn btn-primary" type="submit">结算</button>
+        <a class="btn btn-primary" role="button" href="/orders/create">下单</a>
     </form>
 </template>
 
 <script>
 export default {
-    name: "OrderForm",
+    name: "WareForm",
 
     props: {
         wares: { type: Array, required: true },
@@ -58,7 +70,7 @@ export default {
 
             for (let index in this.wares) {
                 if (this.wares.hasOwnProperty(index)) {
-                    total += this.wares[index].product.price.replace('.', '') * this.wares[index].quantity
+                    total += this.wares[index].product.price.replace('.', '') * this.items[index].quantity
                 }
             }
 
@@ -72,18 +84,21 @@ export default {
 
             for (let index in this.wares) {
                 if (this.wares.hasOwnProperty(index)) {
-                    items[index] = { id: this.wares[index].id, quantity: this.wares[index].quantity }
+                    let { id, quantity, is_selected } = this.wares[index]
+                    items[index] = { id, quantity, is_selected }
                 }
             }
 
             return items
         },
 
-        handleSubmit() {
-            axios.post('/api/orders/', { wares: this.items }).then(() => {
-                location.href = '/orders'
+        handleChange(index) {
+            let { quantity, is_selected } = this.items[index]
+
+            axios.patch(`/api/wares/${ this.items[index].id }`, { quantity, is_selected }).then(() => {
+                //
             })
-        },
+        }
     }
 }
 </script>
