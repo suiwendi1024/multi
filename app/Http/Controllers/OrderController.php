@@ -30,7 +30,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $wares = \App\Models\Ware::whereType('order')
+        $wares = \App\Models\Ware::whereIsSelected(true)
             ->whereSubjectType(\Auth::user()->getMorphClass())
             ->whereSubjectId(\Auth::id())
             ->get();
@@ -56,8 +56,6 @@ class OrderController extends Controller
                 $ware->update([
                     'subject_type' => $order->getMorphClass(),
                     'subject_id' => $order->id,
-                    'amount' => $ware->product->price * $item['quantity'],
-                    'quantity' => $item['quantity'],
                 ]);
                 $total += $ware->amount;
             }

@@ -15,7 +15,7 @@
                 @else
                     <div class="card">
                         <div class="card-body">
-                            <order-form :wares="{{ $wares }}"></order-form>
+                            <ware-form :wares="{{ $wares }}"></ware-form>
                         </div>
                     </div>
                 @endempty

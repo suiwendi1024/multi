@@ -19,7 +19,7 @@ class CreateWaresTable extends Migration
             $table->unsignedBigInteger('product_id')->index()->comment('products表外键');
             $table->unsignedTinyInteger('quantity')->default(1)->comment('数量');
             $table->decimal('amount')->default(0)->comment('金额');
-            $table->string('type')->default('cart')->comment('类型');
+            $table->boolean('is_selected')->default(false)->comment('是否选中');
             $table->timestamps();
         });
     }

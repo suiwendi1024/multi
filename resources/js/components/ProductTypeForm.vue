@@ -6,8 +6,8 @@
                 <input type="number" class="form-control" id="inputQuantity" min="1" max="999" v-model="quantity">
             </div>
         </div>
-        <button type="button" class="btn btn-light btn-lg border-danger text-danger" @click="handleBuy('order')">立即购买</button>
-        <button type="button" class="btn btn-danger btn-lg" @click="handleBuy('cart')">加入购物车</button>
+        <button type="button" class="btn btn-light btn-lg border-danger text-danger" @click="handleBuy(true)">立即购买</button>
+        <button type="button" class="btn btn-danger btn-lg" @click="handleBuy()">加入购物车</button>
     </form>
 </template>
 
@@ -32,15 +32,16 @@ export default {
     },
 
     methods: {
-        handleBuy(type) {
+        handleBuy(is_selected = false) {
             if (this.isLoggedIn) {
-                let data = { product: this.product.id, quantity: this.quantity, type: type }
+                let data = { product: this.product.id, quantity: this.quantity, is_selected }
 
                 axios.post('/api/wares', data).then(() => {
-                    if (type === 'order') {
+                    if (is_selected === true) {
                         location.href = '/orders/create'
+                    } else {
+                        alert('已加入购物车！')
                     }
-                    alert('已加入购物车！')
                 })
             } else {
                 location.href = '/login'

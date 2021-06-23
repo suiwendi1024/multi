@@ -47,15 +47,7 @@ class WareController extends Controller
     public function store(StoreWareRequest $request)
     {
         if ($request->wantsJson()) {
-            $attributes = $request->validationData();
-            $where = [
-                'subject_type' => $attributes['subject_type'],
-                'subject_id' => $attributes['subject_id'],
-                'product_id' => $attributes['product_id'],
-                'type' => $attributes['type'],
-            ];
-
-            if (!$ware = \App\Models\Ware::where($where)->first()) {
+            if (!$ware = \App\Models\Ware::where($request->validationData())->first()) {
                 $ware = \App\Models\Ware::create($request->validationData());
             }
 

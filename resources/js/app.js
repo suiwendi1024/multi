@@ -26,6 +26,7 @@ Vue.component('order-form', require('./components/OrderForm.vue').default);
 Vue.component('post-section', require('./components/PostSection.vue').default);
 Vue.component('product-section', require('./components/ProductSection.vue').default);
 Vue.component('product-type-form', require('./components/ProductTypeForm.vue').default);
+Vue.component('ware-form', require('./components/WareForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

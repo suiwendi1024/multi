@@ -26,7 +26,6 @@ class WareSeeder extends Seeder
                 'product_id' => $product->id,
                 'amount' => $product->price * $quantity,
                 'quantity' => $quantity,
-                'type' => 'paid',
             ];
         }
 

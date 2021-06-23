@@ -21,6 +21,7 @@ class StoreWareRequest extends FormRequest
         $this->merge([
             'product_id' => $this->product,
         ]);
+        $this->offsetUnset('product');
     }
 
     /**
