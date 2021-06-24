@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class OrderItemTest extends TestCase
+class WareTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,7 +24,7 @@ class OrderItemTest extends TestCase
      */
     public function testModelHasOrder()
     {
-        $this->assertInstanceOf(\App\Models\Order::class, $this->model->order);
+        $this->assertInstanceOf(\App\Models\Order::class, $this->model->subject);
     }
 
     /**

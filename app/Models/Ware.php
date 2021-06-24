@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\ProductTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Ware extends Model
 {
-    use ProductTrait;
+    use ProductTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'subject_type',

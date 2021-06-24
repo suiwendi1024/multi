@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Traits\WaresTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use UserTrait,
-        WaresTrait;
+        WaresTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'total',

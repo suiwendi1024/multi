@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\LikesTrait;
 use App\Models\Traits\ParentTrait;
 use App\Models\Traits\UserTrait;
@@ -11,7 +12,8 @@ class Comment extends Model
 {
     use UserTrait,
         ParentTrait,
-        LikesTrait;
+        LikesTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'commentable_type',

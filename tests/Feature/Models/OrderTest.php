@@ -26,6 +26,6 @@ class OrderTest extends TestCase
      */
     public function testModelHasItems()
     {
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->model->items);
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->model->wares);
     }
 }
