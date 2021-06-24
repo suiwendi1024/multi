@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Models\Traits\CategoryTrait;
 use App\Models\Traits\CommentsTrait;
+use App\Models\Traits\HashidsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use CategoryTrait,
-        CommentsTrait;
+        CommentsTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'cover_url',
@@ -39,6 +41,6 @@ class Product extends Model
      */
     public function getPathAttribute()
     {
-        return route('products.show', ['product' => $this->id]);
+        return route('products.show', ['product' => $this]);
     }
 }

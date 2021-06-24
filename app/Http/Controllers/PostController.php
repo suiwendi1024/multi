@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 class PostController extends Controller
 {
@@ -23,12 +24,12 @@ class PostController extends Controller
     {
         $query = Post::query();
 
-        if ($category = \request('category')) {
-            $query = Post::ofCategory($category);
+        if ($category = current(Hashids::decode(\request('category')))) {
+            $query = $query->ofCategory($category);
         }
         if ($search = \request('search')) {
             $like = "%{$search}%";
-            $query = Post::where('title', 'like', $like)->orWhere('summary', 'like', $like);
+            $query = $query->where('title', 'like', $like)->orWhere('summary', 'like', $like);
         }
 
         $posts = $query->simplePaginate()->withQueryString();
@@ -77,7 +78,7 @@ class PostController extends Controller
         $post = Post::appendIsLiked()->appendIsFavorited()->find($id);
         $comments = $post->comments()->simplePaginate();
 
-        $comments->withPath(route('posts.comments.index', ['post' => $id]));
+        $comments->withPath(route('posts.comments.index', compact('post')));
 
         $post->increment('views');
 

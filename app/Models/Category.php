@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\ParentTrait;
 use App\Models\Traits\PostsTrait;
 use App\Models\Traits\TypeTrait;
@@ -11,7 +12,8 @@ class Category extends Model
 {
     use PostsTrait,
         ParentTrait,
-        TypeTrait;
+        TypeTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'name',

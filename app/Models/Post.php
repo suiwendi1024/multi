@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\CategoryTrait;
 use App\Models\Traits\CommentsTrait;
 use App\Models\Traits\FavoritesTrait;
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\LikesTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,8 @@ class Post extends Model
         CategoryTrait,
         CommentsTrait,
         LikesTrait,
-        FavoritesTrait;
+        FavoritesTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'title',
@@ -43,7 +45,7 @@ class Post extends Model
      */
     public function getPathAttribute()
     {
-        return route('posts.show', ['post' => $this->id, 'category' => $this->category->parent_id]);
+        return route('posts.show', ['post' => $this, 'category' => $this->category->parent_id]);
     }
 
     /**

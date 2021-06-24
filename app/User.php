@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Traits\HashidsTrait;
 use App\Models\Traits\PostsTrait;
 use App\Models\Traits\TypeTrait;
 use App\Models\Traits\WaresTrait;
@@ -14,7 +15,8 @@ class User extends Authenticatable
     use Notifiable,
         PostsTrait,
         TypeTrait,
-        WaresTrait;
+        WaresTrait,
+        HashidsTrait;
 
     /**
      * The attributes that are mass assignable.

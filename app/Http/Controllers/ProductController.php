@@ -55,7 +55,7 @@ class ProductController extends Controller
         $product = \App\Models\Product::find($id);
         $comments = $product->comments()->simplePaginate();
 
-        $comments->withPath(route('products.comments.index', ['product' => $id]));
+        $comments->withPath(route('products.comments.index', compact('product')));
 
         return view('products.show', compact('product', 'comments'));
     }
