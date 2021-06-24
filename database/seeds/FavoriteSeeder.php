@@ -11,7 +11,7 @@ class FavoriteSeeder extends Seeder
      */
     public function run()
     {
-        $users = \App\User::all();
+        $users = \App\User::whereType('user')->get();
         $posts = \App\Models\Post::latest('id')->limit(40)->get();
         $records = [];
 

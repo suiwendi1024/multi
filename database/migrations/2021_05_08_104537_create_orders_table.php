@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index()->comment('users表外键');
-            $table->unsignedMediumInteger('total')->comment('总额');
+            $table->decimal('total')->default(0)->comment('总额');
             $table->timestamps();
         });
     }

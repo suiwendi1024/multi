@@ -9,14 +9,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @empty($orders->items())
+                <h2>我的订单</h2>
+                @empty($orders->count())
                     <div class="alert alert-warning" role="alert">暂无数据。</div>
                 @else
                     <ul class="list-group list-group-flush">
                         @foreach($orders as $order)
                             <li class="list-group-item bg-transparent">
                                 <h4>{{ $order->created_at }}</h4>
-                                @foreach($order->items as $item)
+                                @foreach($order->wares as $item)
                                     <div class="media mb-2">
                                         <img class="mr-3 img-fluid" style="max-width: 100px;" src="{{ asset($item->product->cover_url) }}" alt="">
                                         <div class="media-body">

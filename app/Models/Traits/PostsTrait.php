@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-trait PostTrait
+trait PostsTrait
 {
     /**
      * 一对多关联Post模型。

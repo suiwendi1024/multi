@@ -12,7 +12,7 @@ class FavoriteControllerTest extends TestCase
 
     public function testStore()
     {
-        $favorite = factory(\App\Models\Favorite::class)->state('new')->make(['id' => 1]);
+        $favorite = factory(\App\Models\Favorite::class)->states('withUser', 'withPost')->make(['id' => 1]);
 
         // 未登录
         $this->postStore()->assertUnauthorized();
@@ -32,7 +32,7 @@ class FavoriteControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $favorite = factory(\App\Models\Favorite::class)->state('new')->create();
+        $favorite = factory(\App\Models\Favorite::class)->states('withUser', 'withPost')->create();
 
         // 未登录
         $this->deleteDestroy()->assertUnauthorized();

@@ -14,6 +14,6 @@ class CategoriesComposer
      */
     public function compose(View $view)
     {
-        $view->with('categories', \App\Models\Category::firstGeneration()->ofType('post')->with('children')->get());
+        $view->with('categories', \App\Models\Category::firstGeneration()->whereType('post')->with('children')->get());
     }
 }

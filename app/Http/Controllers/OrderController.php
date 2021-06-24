@@ -30,7 +30,12 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('orders.create');
+        $wares = \App\Models\Ware::whereIsSelected(true)
+            ->whereSubjectType(\Auth::user()->getMorphClass())
+            ->whereSubjectId(\Auth::id())
+            ->get();
+
+        return view('orders.create', compact('wares'));
     }
 
     /**
@@ -41,7 +46,21 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->wantsJson()) {
+            $wares = \App\Models\Ware::findMany(array_column($request->wares, 'id'))->pluck(null, 'id');
+            $order = \Auth::user()->orders()->create();
+            $total = 0;
+
+            foreach ($request->wares as $item) {
+                $ware = $wares->get($item['id']);
+                $ware->update([
+                    'subject_type' => $order->getMorphClass(),
+                    'subject_id' => $order->id,
+                ]);
+                $total += $ware->amount;
+            }
+            $order->update(['total' => $total]);
+        }
     }
 
     /**

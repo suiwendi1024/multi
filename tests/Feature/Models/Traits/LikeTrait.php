@@ -7,7 +7,7 @@ trait LikeTrait
     /**
      * 一对多关联Like模型。
      */
-    public function testLikes()
+    public function testModelHasLikes()
     {
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $this->model->likes);
     }

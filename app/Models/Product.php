@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use App\Models\Traits\CategoryTrait;
+use App\Models\Traits\CommentsTrait;
+use App\Models\Traits\HashidsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use CategoryTrait;
+    use CategoryTrait,
+        CommentsTrait,
+        HashidsTrait;
 
     protected $fillable = [
         'cover_url',
@@ -29,6 +33,7 @@ class Product extends Model
     protected static function booted()
     {
         static::addGlobalScope(new \App\Scopes\ReverseScope());
+        static::addGlobalScope(new \App\Scopes\CategoryScope());
     }
 
     /**
@@ -36,6 +41,6 @@ class Product extends Model
      */
     public function getPathAttribute()
     {
-        return route('products.show', ['product' => $this->id]);
+        return route('products.show', ['product' => $this]);
     }
 }

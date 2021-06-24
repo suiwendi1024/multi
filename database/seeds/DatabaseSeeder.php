@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
              // 商店
              ProductSeeder::class,
              OrderSeeder::class,
-             OrderItemSeeder::class,
+             WareSeeder::class,
              // 通用
              CommentSeeder::class,
              LikeSeeder::class,

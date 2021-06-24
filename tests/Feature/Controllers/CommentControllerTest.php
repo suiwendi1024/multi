@@ -12,8 +12,8 @@ class CommentControllerTest extends TestCase
 
     public function testIndex()
     {
-        $post = factory(\App\Models\Post::class)->state('new')->create();
-        $comments = factory(\App\Models\Comment::class, 2)->state('user')->create([
+        $post = factory(\App\Models\Post::class)->states('withUser', 'withCategory')->create();
+        $comments = factory(\App\Models\Comment::class, 2)->states('withUser')->create([
             'commentable_type' => $post->getMorphClass(),
             'commentable_id' => $post->id,
         ]);
@@ -37,7 +37,7 @@ class CommentControllerTest extends TestCase
 
     public function testStore()
     {
-        $comment = factory(\App\Models\Comment::class)->state('new')->make(['id' => 1]);
+        $comment = factory(\App\Models\Comment::class)->states('withUser', 'withPost')->make(['id' => 1]);
 
         // 未登录
         $this->postStore()->assertUnauthorized();
@@ -62,7 +62,7 @@ class CommentControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $comment = factory(\App\Models\Comment::class)->state('new')->create();
+        $comment = factory(\App\Models\Comment::class)->states('withUser', 'withPost')->create();
 
         // 未登录
         $this->deleteDestroy()->assertUnauthorized();

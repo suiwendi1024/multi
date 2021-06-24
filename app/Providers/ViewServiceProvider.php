@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\View\Composers\CategoriesComposer;
 use App\Http\View\Composers\RankingPostsComposer;
+use App\Http\View\Composers\SideProductsComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,5 +29,6 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer(['posts._category-nav', 'posts.create-edit'], CategoriesComposer::class);
         View::composer('posts.index', RankingPostsComposer::class);
+        View::composer('products.show', SideProductsComposer::class);
     }
 }

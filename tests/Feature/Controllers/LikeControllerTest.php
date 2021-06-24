@@ -12,7 +12,7 @@ class LikeControllerTest extends TestCase
 
     public function testStore()
     {
-        $like = factory(\App\Models\Like::class)->state('new')->make(['id' => 1]);
+        $like = factory(\App\Models\Like::class)->states('withUser', 'withPost')->make(['id' => 1]);
 
         // 未登录
         $this->postStore()->assertUnauthorized();
@@ -32,7 +32,7 @@ class LikeControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $like = factory(\App\Models\Like::class)->state('new')->create();
+        $like = factory(\App\Models\Like::class)->states('withUser', 'withPost')->create();
 
         // 未登录
         $this->deleteDestroy()->assertUnauthorized();

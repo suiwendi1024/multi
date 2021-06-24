@@ -11,10 +11,9 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        $users = \App\User::all();
+        $users = \App\User::whereType('user')->latest('id')->limit(10)->get();
         $records = [];
-        $date = '-6 months';
-
+        $date = '-3 months';
 
         for ($i = 0; $i < $users->count() * 20; $i++) {
             $records[] = [

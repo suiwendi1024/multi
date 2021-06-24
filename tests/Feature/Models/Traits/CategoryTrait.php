@@ -7,7 +7,7 @@ trait CategoryTrait
     /**
      * 多对一关联Category模型。
      */
-    public function testCategory()
+    public function testModelHasCategory()
     {
         $this->assertInstanceOf(\App\Models\Category::class, $this->model->category);
     }

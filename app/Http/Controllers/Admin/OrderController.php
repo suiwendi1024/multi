@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,7 @@ class OrderController extends Controller
     public function index()
     {
         /** @var \Illuminate\Database\Eloquent\Collection $year */
-        $year = \App\Models\Order::whereBetween('created_at', [
+        $year = \App\Models\Order::withoutGlobalScope(new \App\Scopes\ReverseScope())->whereBetween('created_at', [
             date('Y-m-d', strtotime('-1 year')),
             date('Y-m-d')
         ])->get()->groupBy(function (\App\Models\Order $order) {
