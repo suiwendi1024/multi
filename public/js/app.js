@@ -2611,6 +2611,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "WareForm",
   props: {
@@ -39322,7 +39323,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md" }, [
-                  _c("h3", [_vm._v(_vm._s(ware.product.name))]),
+                  _c("h4", [_vm._v(_vm._s(ware.product.name))]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group row" }, [
                     _c("div", { staticClass: "col-md-8" }, [
@@ -39706,7 +39707,7 @@ var render = function() {
         _vm._l(_vm.wares, function(ware, index) {
           return _c("li", { key: ware.id, staticClass: "list-group-item" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-2 d-flex" }, [
+              _c("div", { staticClass: "col-md-1 d-flex" }, [
                 _c(
                   "div",
                   {
@@ -39770,8 +39771,10 @@ var render = function() {
                       attrs: { for: "customCheck" + index }
                     })
                   ]
-                ),
-                _vm._v(" "),
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-2" }, [
                 _c("img", {
                   staticClass: "img-fluid",
                   attrs: { src: ware.product.cover_url, alt: "" }
@@ -39779,7 +39782,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md" }, [
-                _c("h3", [_vm._v(_vm._s(ware.product.name))]),
+                _c("h4", [_vm._v(_vm._s(ware.product.name))]),
                 _vm._v(" "),
                 _c("div", { staticClass: "form-group row" }, [
                   _c("div", { staticClass: "col-md-8" }, [
