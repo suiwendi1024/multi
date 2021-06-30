@@ -16,14 +16,6 @@ class StoreWareRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'product_id' => $this->product,
-        ]);
-        $this->offsetUnset('product');
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,7 +26,7 @@ class StoreWareRequest extends FormRequest
         return [
             'product_id' => ['required', 'exists:products,id'],
             'quantity' => ['required', 'numeric', 'max:999', 'min:1'],
-            'type' => ['string'],
+            'is_selected' => ['required', 'bool'],
         ];
     }
 

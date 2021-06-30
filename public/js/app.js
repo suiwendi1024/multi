@@ -2530,7 +2530,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.isLoggedIn) {
         var data = {
-          product: this.product.id,
+          product_id: this.product.id,
           quantity: this.quantity,
           is_selected: is_selected
         };

@@ -34,7 +34,7 @@ export default {
     methods: {
         handleBuy(is_selected = false) {
             if (this.isLoggedIn) {
-                let data = { product: this.product.id, quantity: this.quantity, is_selected }
+                let data = { product_id: this.product.id, quantity: this.quantity, is_selected }
 
                 axios.post('/api/wares', data).then(() => {
                     if (is_selected === true) {
