@@ -11,7 +11,7 @@
                         <img class="img-fluid" :src="ware.product.cover_url" alt="">
                     </div>
                     <div class="col-md">
-                        <h3>{{ ware.product.name }}</h3>
+                        <h4>{{ ware.product.name }}</h4>
                         <div class="form-group row">
                             <div class="col-md-8">
                                 <input type="hidden" :value="ware.product.id">
