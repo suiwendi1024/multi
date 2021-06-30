@@ -39351,8 +39351,8 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c("li", { staticClass: "list-group-item text-right" }, [
-            _vm._v(_vm._s(_vm.total))
+          _c("li", { staticClass: "list-group-item text-right text-danger" }, [
+            _vm._v("￥" + _vm._s(_vm.total))
           ])
         ],
         2
@@ -39831,8 +39831,8 @@ var render = function() {
           ])
         }),
         _vm._v(" "),
-        _c("li", { staticClass: "list-group-item text-right" }, [
-          _vm._v(_vm._s(_vm.total))
+        _c("li", { staticClass: "list-group-item text-right text-danger" }, [
+          _vm._v("￥" + _vm._s(_vm.total))
         ])
       ],
       2

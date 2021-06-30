@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item text-right">{{ total }}</li>
+            <li class="list-group-item text-right text-danger">￥{{ total }}</li>
         </ul>
 
         <a class="btn btn-primary" role="button" href="/orders/create">下单</a>

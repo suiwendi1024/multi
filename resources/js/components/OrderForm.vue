@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item text-right">{{ total }}</li>
+            <li class="list-group-item text-right text-danger">￥{{ total }}</li>
         </ul>
 
         <button class="btn btn-primary" type="submit">结算</button>

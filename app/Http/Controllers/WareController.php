@@ -49,6 +49,9 @@ class WareController extends Controller
         if ($request->wantsJson()) {
             if (!$ware = \App\Models\Ware::where($request->validationData())->first()) {
                 $ware = \App\Models\Ware::create($request->validationData());
+            } else {
+                $ware->increment('quantity', $request->quantity);
+                $ware->increment('amount',  $request->amount);
             }
 
             return WareResource::make($ware);
