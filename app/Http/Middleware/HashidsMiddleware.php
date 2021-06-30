@@ -16,9 +16,16 @@ class HashidsMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $length = config('hashids.connections.main.length');
+
         foreach ($request->route()->parameters() as $name => $parameter) {
-            if (!is_numeric($parameter)) {
+            if (!is_numeric($parameter) && strlen($parameter) === $length) {
                 $request->route()->setParameter($name, current(Hashids::decode($parameter)));
+            }
+        }
+        foreach ($request->input() as $key => $value) {
+            if (!is_numeric($value) && strlen($value) === $length) {
+                $request->offsetSet($key, current(Hashids::decode($value)));
             }
         }
 
